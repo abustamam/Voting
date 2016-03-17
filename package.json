@@ -46,7 +46,7 @@
     "eslint-plugin-react": "^3.11.3",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.13.3",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-load-plugins": "^1.1.0",
     "gulp-sass": "^2.1.0",
@@ -58,10 +58,13 @@
   },
   "dependencies": {
     "babel-core": "^6.6.5",
+    "csv": "^0.4.6",
     "leaflet": "^0.7.7",
+    "material-ui": "^0.15.0-alpha.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-leaflet": "^0.10.1",
+    "react-tap-event-plugin": "^0.2.2",
     "superagent": "^1.8.0-beta.2"
   }
 }

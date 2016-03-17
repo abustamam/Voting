@@ -8,25 +8,15 @@ let pollingPlaceRequests = {
     });
     return result;
   },
-  voter: function(house, zip, dob, apikey){
+  voter: function(house, zip, date, apikey){
     //takes a house number, zip code, and date of birth as a Date object or in the format: 'MM/DD/YYYY'
     var p = new Promise(function(resolve, reject){
-      var now = new Date();
-      if (typeof dob.getMonth == 'function') {
-        if (dob.getMonth() > 12 || dob.getMonth() <= 0) reject('Month was out of range: ' + dob.getMonth());
-        if (dob.getDate() >= 32) reject('Date was out of range: ' + dob.getDate());
-        if (dob.getFullYear() > now.getFullYear()-16 || dob.getFullYear() < now.getFullYear()-120) reject('Year was out of range: ' + dob.getFullYear());
-        
-        let month = dob.getMonth() <= 9 ? '' + 0 + '' + dob.getMonth() : '' + dob.getMonth();
-        let date = '' + dob.getDate();
-        let year = '' + dob.getFullYear();
-        dob = `${month}/${date}/${year}`;
-      }
+      let dob = date.toLocaleDateString('en-US',{timeZone: 'UTC'})
       var mapResults = pollingPlaceRequests.mapResults;
       
       request
-      .get('https://www.googleapis.com/fusiontables/v1/query')
-      .query({"sql": `SELECT  PollName, VBM, BT, ID, MailDate, ReturnDate FROM 13cxU5gasxEIZpLSAQqI3l_B_guMrmbHomOFDqq-E where ZipCode='${zip}' and HouseNum='${house}' and BirthDate='${dob}'`})
+      .get('https://www.googleapis.com/fusiontables/v2/query')
+      .query({"sql": `SELECT PollName, VBM, BT, ID, MailDate, ReturnDate FROM 13cxU5gasxEIZpLSAQqI3l_B_guMrmbHomOFDqq-E where ZipCode='${zip}' and HouseNum='${house}' and BirthDate='${dob}'`})
       .query({key: apikey})
       .end(function(err, res){
         if (err || !res.ok) {

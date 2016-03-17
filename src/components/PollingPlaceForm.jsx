@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import pollingPlaceRequests from '../actions/pollingPlaceRequests';
+import DatePicker from 'material-ui/lib/date-picker/date-picker';
+import AutoComplete from 'material-ui/lib/auto-complete';
+import TextField from 'material-ui/lib/text-field';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 export default class PollingPlaceForm extends Component {
   constructor(props) {
@@ -15,10 +19,30 @@ export default class PollingPlaceForm extends Component {
       longitude: null,
     };
   }
+
+  getStyles() {
+    return {
+      root: {
+
+      },
+      input: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      button: {
+        margin: 12
+      }
+    }
+  }
+
   render() {
     var caption = this.state.caption || this.props.caption;
     var addressLink = this.state.address ? <a href={'http://maps.google.com/?q='+encodeURI(this.state.address)}>➶</a> : null;
     //var map = (this.state.latitude && this.state.longitude) ? <h1>Map!!</h1> : null;
+
+    let styles = this.getStyles()
+    let zipCodes = ['95616','95673','95816','95834','95835','95838'];
+
     if (!this.state.latitude || !this.state.longitude) var map = null;
     else {
       var map = (
@@ -41,19 +65,36 @@ export default class PollingPlaceForm extends Component {
       <div className="polling-place-form row">
         <div className="medium-12 columns">
           <h1>Polling Place Form</h1>
-          <p>
-            <span>house num: <input type="text" name="house" onChange={this.handleHouseChange.bind(this)}></input></span><br />
-            <span>zip: <input type="text" name="zip" onChange={this.handleZipChange.bind(this)}></input></span><br />
-            <span>date of birth: <input type="text" name="dob" onChange={this.handleDobChange.bind(this)}></input></span><br />
-            <span><input type="submit" value="Submit" onClick={this.handleSubmit.bind(this)}></input></span><br />
-          </p>
+          <div style={styles.input}>
+            <TextField
+              hintText="House Number"
+              onChange={(e) => this.setState({house: e.target.value})}
+            />
+            <AutoComplete
+              hintText="Zip Code"
+              dataSource={zipCodes}
+              openOnFocus={true}
+              onUpdateInput={(val) => this.setState({zip: val})}
+              onNewRequest={(val) => this.setState({zip: val})}
+            />
+            <DatePicker 
+              hintText="Date of Birth"
+              onChange={(n, date) => this.setState({dob: date})}
+            />
+            <RaisedButton 
+              label="Submit" 
+              style={styles.button} 
+              onTouchEnd={()=>this.handleSubmit()}
+              onMouseUp={()=>this.handleSubmit()}
+            />
+          </div>
           <p>{caption} {addressLink}</p>
           {map}
         </div>
       </div>
     );
   }
-  handleSubmit(event) {
+  handleSubmit() {
     pollingPlaceRequests.voter(this.state.house, this.state.zip, this.state.dob, this.props.fusionkey)
     .then(function(data){
       if (data.MailDate && data.MailDate != '') {
@@ -85,9 +126,6 @@ export default class PollingPlaceForm extends Component {
   }
   handleZipChange(e) {
     this.setState({zip: e.target.value});
-  }
-  handleDobChange(e) {
-    this.setState({dob: e.target.value});
   }
 }
 
