@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import _ from 'lodash'
 import $ from 'jquery'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
-import * as placeRequests from '../actions/placeRequests'
 import locationsData from './../datasets/locations.js'
 import store from '../stores/pollStore.js'
 import getAccessibility from '../actions/fetchAccessibilityObject.js'
