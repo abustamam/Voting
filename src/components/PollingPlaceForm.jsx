@@ -104,7 +104,7 @@ export default class PollingPlaceForm extends Component {
     .then((pollid) =>{
       this.setState({userPpid: pollid});
       store.setPPID(pollid);
-      return pollingPlaceRequests.place(pollid, this.props.fusionkey);
+      return pollingPlaceRequests.place(pollid);
     })
     .then((place) => {
       var vals = {ppName: place['Polling place'], ppAddress: `${place.Address} ${place.City}, ${this.props.stateAbbr} ${place.Zip}`, ppLat: place.Lat, ppLong: place.Long};
