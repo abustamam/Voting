@@ -8,7 +8,7 @@ let pollingPlaceRequests = {
     });
     return result;
   },
-  voter: function(house, zip, dob, apikey){
+  voter: function(house, zip, dob){
     //takes a house number, zip code, and date of birth as a Date object or in the format: 'MM/DD/YYYY'
     var p = new Promise(function(resolve, reject){
       var now = new Date();
@@ -25,19 +25,19 @@ let pollingPlaceRequests = {
       var mapResults = pollingPlaceRequests.mapResults;
       
       request
-      .get('https://www.googleapis.com/fusiontables/v1/query')
-      .query({"sql": `SELECT  PollName, VBM, BT, ID, MailDate, ReturnDate FROM 13cxU5gasxEIZpLSAQqI3l_B_guMrmbHomOFDqq-E where ZipCode='${zip}' and HouseNum='${house}' and BirthDate='${dob}'`})
-      .query({key: apikey})
+      .get('https://voterreg.saccounty.net/VREMobileAPI/api/Voter/initializeZip')
+      .query({zipCode: zip})
+      .query({houseNum: house})
+      .query({birthDate: dob})
       .end(function(err, res){
         if (err || !res.ok) {
           reject(err);
+        } else if (res.body.length !== 1) {
+          reject(res.body);
         } else {
-          if (res.body.columns && res.body.rows && res.body.rows.length == 1) {
-            let result = mapResults(res.body.columns, res.body.rows);
-            resolve(result);
-          } else if (res.body.rows && res.body.rows.length > 1) {
-            reject('Too many results');
-          } else reject(res.body);
+          alert('looking good!!');
+          alert(JSON.stringify(res.body[0], null, '  '));
+          resolve(res.body[0]);
         }
       });
     });
