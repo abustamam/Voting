@@ -118,6 +118,7 @@ export default class PollingPlaceForm extends Component {
         pollingPlaceRequests.geocode(this.state.address, this.props.mapboxkey, this.props.approxLat, this.props.approxLong)
         .then((result) =>{
           this.setState({latitude: result.center[1], longitude: result.center[0]});
+          store.setVals({ppLat: result.center[1], ppLong: result.center[0]});
         });
       }
     })
