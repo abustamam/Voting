@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 npm-debug.log
-dist/
+dist/*
+!dist/index.html
 bower_components
 public/css/*
 css/*

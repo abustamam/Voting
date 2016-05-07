@@ -25,8 +25,8 @@ Clone the repo:
 Install dependencies:
 `npm install`
 
-Build the CSS files:
-`npm run build`
+~~Build the CSS files:~~ 
+~~`npm run build`~~
 
 Run the server:
 `npm run start`
