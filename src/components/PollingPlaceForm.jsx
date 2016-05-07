@@ -19,72 +19,33 @@ export default class PollingPlaceForm extends Component {
     };
   }
 
-  getStyles() {
-    return {
-      root: {
-
-      },
-      form: {
-        display: 'flex',
-        flexDirection: 'column'
-      },
-      header: {
-        fontSize: 40,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        textAlign: 'center'
-      },
-      form: {
-        display: 'flex',
-        flexDirection: 'column',
-        padding: 10,
-      },
-      formGroup: {
-        display: 'flex',
-        flexDirection: 'column',
-        marginTop: 10,
-        minHeight: 50
-      },
-      formInput: {
-        height: '2.4375rem',
-        fontSize: '1rem'
-      },
-      button: {
-        height: '2.4375rem',
-        fontSize: '1rem',
-        backgroundColor: 'lightgray'
-      }
-    }
-  }
-
   render() {
-    const styles = this.getStyles()
     var caption = this.state.caption || this.props.caption;
     var addressLink = this.state.address ? <a href={'http://maps.google.com/?q='+encodeURI(this.state.address)}>➶</a> : null;
 
     return (
       <div className="polling-place-form-row row">
-        <div className="medium-12 columns" style={styles.form}>
+        <div className="medium-12 columns form">
           <div>
-            <h1 style={styles.header}>Polling Place Form</h1>
+            <h1 className="title-text">Polling Place Form</h1>
           </div>
           <p>{caption} {addressLink}</p>
           <form id="polling-place-form" data-abide role="form">
-            <div style={styles.form}>
-              <div style={styles.formGroup}>
+            <div className="form">
+              <div className="form-group">
                 <label htmlFor="house">House Number</label>
-                <input style={styles.formInput} type="number" name="house" id="house" placeholder="e.g. '1234'" required onChange={this.handleHouseChange.bind(this)}/>
+                <input className="form-input" type="number" name="house" id="house" placeholder="e.g. '1234'" required onChange={this.handleHouseChange.bind(this)}/>
               </div>
-              <div style={styles.formGroup}>
+              <div className="form-group">
                 <label htmlFor="zip">5-Digit Zip Code</label>
-                <input style={styles.formInput} type="number" name="zip" id="zip" placeholder="e.g. '54321'" required onChange={this.handleZipChange.bind(this)}/>
+                <input className="form-input" type="number" name="zip" id="zip" placeholder="e.g. '54321'" required onChange={this.handleZipChange.bind(this)}/>
               </div>
-              <div style={styles.formGroup}>
+              <div className="form-group">
                 <label htmlFor="dob">Date of Birth <small>(MM/DD/YYYY)</small></label>
-                <input style={styles.formInput} type="date" placeholder="MM/DD/YYYY" name="dob" id="dob" required onChange={this.handleDobChange.bind(this)}/>
+                <input className="form-input" type="date" placeholder="MM/DD/YYYY" name="dob" id="dob" required onChange={this.handleDobChange.bind(this)}/>
               </div>
-              <div style={styles.formGroup}>
-                <button style={styles.button} onClick = {(e) => this.handleSubmit(e)}>Submit</button>
+              <div className="form-group">
+                <button className="form-input button" onClick = {(e) => this.handleSubmit(e)}>Submit</button>
               </div>
             </div>
           </form>
@@ -142,13 +103,5 @@ PollingPlaceForm.defaultProps = {
   fusionkey: 'AIzaSyDRoMwLIG_AcxMeha5PIv9lWnM0AwWRsCM', //read-only access
   mapboxkey: 'pk.eyJ1IjoiYnJvb2tzbiIsImEiOiJjaWpkbmkzMDEwMDh3dGdra2Y0OHYwbjViIn0.gqY3_NGpI96FuDQ7csaOUw', //geocoding API
   caption: 'Enter your house number, zip code, and date of birth to find your polling place.',
-  stateAbbr: 'CA',
-  styles: {
-    root: {
-      height: '10em'
-    },
-    map: {
-      height: '100%'
-    }
-  }
+  stateAbbr: 'CA'
 };

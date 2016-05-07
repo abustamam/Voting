@@ -107,6 +107,11 @@ body {
 
 .rendered-tab {
   height: calc( 100vh - 300px - 50px);
+
+  display: flex;
+  flex-direction: column;
+  font-size: 28px;
+  padding: 10px 50px;
 }
 
 .place-map {
@@ -130,6 +135,48 @@ body {
 .story-list {
   margin: 0px;
   padding: 0px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    min-height: 50px;
+    .form-input {
+      height: 2.4375rem;
+      font-size: 1rem;
+      .button {
+        background-color: lightgray;
+      }
+    }
+  }
+}
+
+.resources {
+  &-info {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+  }
+  &-header {
+    margin: 5px 0 0 0;
+  }
+  &-back-to-top {
+    font-size: 14px;
+  }
+  &-image {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+.svg-icon {
+  transform: rotate(-90deg);
 }
 
 #map-container {
