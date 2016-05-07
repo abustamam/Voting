@@ -40,7 +40,7 @@
 //  35. Tooltip
 //  36. Top Bar
 
-@import 'util/util';
+// @import 'util/util';
 
 // 1. Global
 // ---------
@@ -73,7 +73,7 @@ $global-text-direction: ltr;
 $global-flexbox: false;
 $print-transparent-backgrounds: true;
 
-@include add-foundation-colors;
+// @include add-foundation-colors;
 
 // 2. Breakpoints
 // --------------

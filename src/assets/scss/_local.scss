@@ -25,6 +25,20 @@ $header-sizes: (
   ),
 );
 
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+}
+
+.app-root {
+  height: 100%;
+  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif,
+}
+
 .row.full-width {
   width: 100%;
   margin-left: auto;
@@ -37,26 +51,62 @@ $header-sizes: (
 }
 
 .header-row {
-  background: url('../images/sacCapitol.jpg') no-repeat top center fixed;
-  background-size: 100% auto;
-
+  background: url('../images/sacCapitol.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   .title {
     white-space: nowrap;
     font-weight: 300;
     text-align: center;
+    font-size: 10vw;
     padding: 2em;
     text-transform: uppercase;
     text-shadow: 2px 2px #333;
     color: #fff;
 
-    @include breakpoint(medium) {
-      padding: 1em;
-    }
+    // @include breakpoint(medium) {
+    //   padding: 1em;
+    // }
     
-    @include breakpoint(small) {
-      padding: 0.8em;
-    }
+    // @include breakpoint(small) {
+    //   padding: 0.8em;
+    // }
   }
+}
+
+.tabs {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .tab {
+    height: 100%;
+    cursor: pointer;
+    background: rgba(1, 1, 1, .25);
+    box-shadow: 0px -2px 5px 0px #777 inset;
+    border-top: 1px solid black;
+    border-left: .5px solid black;
+    border-right: .5px solid black;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .active {
+    background: white;
+    box-shadow: none;
+  }
+}
+
+.rendered-tab {
+  height: calc( 100vh - 300px - 50px);
 }
 
 #map-container {
