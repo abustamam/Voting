@@ -35,31 +35,6 @@ export default class PlaceMap extends Component {
     }
   }
 
-  getStyles() {
-    return {
-      root: {
-        height: '100%',
-        width: '100%'
-      },
-      header: {
-        fontSize: 40,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        textAlign: 'center'
-      },
-      beforeWarning: {
-        color: 'red'
-      },
-      warningListItem: {
-        listStyleType: 'none'
-      },
-      ul: {
-        margin: 0,
-        padding: 0,
-      }
-    }
-  }
-
   handleMarkerClick(event, ppid, userPpid, placeName) {
 
     var markerPpid = ppid || 0;
@@ -79,11 +54,10 @@ export default class PlaceMap extends Component {
   }
 
   getStories() {
-    const styles = this.getStyles()
     const stories = _.map(this.state.stories, (section, key) => {
       const warnings = _.map(section.warnings, (val) => (
-        <li key={`${this.state.ppid}-${key}-warning`} className="accessibilityWarning" style={styles.warningListItem}>
-          <span style={styles.beforeWarning}>⚠   </span>
+        <li key={`${this.state.ppid}-${key}-warning`} className="accessibility-warning">
+          <span className="before-warning">⚠   </span>
           {val}
         </li>)
       )
@@ -100,13 +74,12 @@ export default class PlaceMap extends Component {
         )
     })
 
-    return <ul style={styles.ul}>
+    return <ul className="story-list">
       {stories}
     </ul>
   }
 
   render() {
-    const styles = this.getStyles()
 
     const north = [38.721915564, -121.390968136]
     const east = [38.6648806855, -121.133173599]
@@ -139,8 +112,8 @@ export default class PlaceMap extends Component {
     })
 
     return (
-      <div style={styles.root}>
-        <h1 style={styles.header}>Polling Place Map</h1>
+      <div className="place-map">
+        <h1 className="title-text">Polling Place Map</h1>
           <Map 
             bounds={bounds} 
             style={{height: '100vh'}}

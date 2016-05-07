@@ -109,6 +109,29 @@ body {
   height: calc( 100vh - 300px - 50px);
 }
 
+.place-map {
+  height: 100%;
+  width: 100%;
+}
+
+.title-text {
+  font-size: 40px;
+  font-weight: normal;
+  font-style: normal;
+  text-align: center;
+}
+.before-warning{
+  color: red;
+}
+.accessibility-warning {
+  list-style-type: none;
+}
+
+.story-list {
+  margin: 0px;
+  padding: 0px;
+}
+
 #map-container {
   height: 20em;
 }
