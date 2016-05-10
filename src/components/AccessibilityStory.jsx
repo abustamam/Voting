@@ -12,7 +12,8 @@ export default class AccessibilityStory extends Component {
       stories: null,
       ppName: null,
       acName: null,
-      acPpid: null
+      acPpid: null,
+      accessibilityError: null
     };
   }
   render() {
@@ -41,17 +42,34 @@ export default class AccessibilityStory extends Component {
         </li>
       )
     }
+    let placeDetails = (<h2>Search or select a site to view accessibility information.</h2>)
+    if (name && stories.length === 0) {
+      placeDetails = (<h2>{`Looking up site accessibility for ${name}...`}</h2>)
+    } else if (name && stories.length > 0) {
+      placeDetails = (<div><h2>{`Accessibility of ${name}`}</h2>
+        <p>If any of the following pose a problem, please call one of the following numbers:</p>
+        <ul>
+          <li>Voter Registration & Elections Office Main Line: (916) 875-6451</li>
+          <li>Voter Registration & Elections Office-Español: (916) 876-6688</li>
+          <li>Voter Registration & Elections Office-中文: (916) 876-8402</li>
+        </ul>
+      </div>)
+    } else if (this.state.accessibilityError === true) {
+      let aeplacename = name || 'your polling place';
+      placeDetails = (<div><h2>{`Unable to find details for ${aeplacename}.`}</h2>
+        <p>For assistance with your polling place or registration, please call one of the following numbers:</p>
+        <ul>
+          <li>Voter Registration & Elections Office Main Line: (916) 875-6451</li>
+          <li>Voter Registration & Elections Office-Español: (916) 876-6688</li>
+          <li>Voter Registration & Elections Office-中文: (916) 876-8402</li>
+        </ul>
+      </div>)
+    } else if (this.state.ppid) {
+      placeDetails = (<h2>{`Looking up site accessibility for your polling place...`}</h2>)
+    }
     return (
       <div style={{padding: 15}}>
-        {name ? <div><h2>{`Accessibility of ${name}`}</h2>
-          <p>If any of the following pose a problem, please call one of the following numbers:</p>
-          <ul>
-            <li>Voter Registration & Elections Office Main Line: (916) 875-6451</li>
-            <li>Voter Registration & Elections Office-Español: (916) 876-6688</li>
-            <li>Voter Registration & Elections Office-中文: (916) 876-8402</li>
-          </ul>
-        </div> : <h2>Search or select a site to view accessibility information.</h2>
-        }
+        {placeDetails}
         <ul className="accordion" data-accordion>
           {stories}
         </ul>
@@ -68,13 +86,15 @@ export default class AccessibilityStory extends Component {
   }
   componentWillUpdate(nextProps, nextState) {
     if (nextState.ppid && parseInt(nextState.ppid) > 0 && nextState.ppid !== this.state.ppid) {
+      this.setState({accessibilityError: null});
       getAccessibility(nextState.ppid)
       .then((accessibilityResponse) => {
         var stories = createStoriesObject(accessibilityResponse[nextState.ppid]);
-        this.setState({acName: stories.Info.name, acPpid: stories.Info.ppid});
+        let acName = stories.Info.name;
+        let acPpid = stories.Info.ppid;
         delete stories.Info;
-        this.setState({stories});
-      })
+        this.setState({stories: stories, accessibilityError: false, acName: acName, acPpid: acPpid})
+      }).catch(err => this.setState({accessibilityError: true}));
     }
   }
   getStoreState(o) {

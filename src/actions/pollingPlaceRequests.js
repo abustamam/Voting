@@ -8,7 +8,7 @@ let pollingPlaceRequests = {
     });
     return result;
   },
-  voter: function(house, zip, dob, apikey){
+  voter: function(house, zip, dob){
     //takes a house number, zip code, and date of birth as a Date object or in the format: 'MM/DD/YYYY'
     var p = new Promise(function(resolve, reject){
       var now = new Date();
@@ -25,43 +25,38 @@ let pollingPlaceRequests = {
       var mapResults = pollingPlaceRequests.mapResults;
       
       request
-      .get('https://www.googleapis.com/fusiontables/v1/query')
-      .query({"sql": `SELECT  PollName, VBM, BT, ID, MailDate, ReturnDate FROM 13cxU5gasxEIZpLSAQqI3l_B_guMrmbHomOFDqq-E where ZipCode='${zip}' and HouseNum='${house}' and BirthDate='${dob}'`})
-      .query({key: apikey})
+      .get('https://voterreg.saccounty.net/VREMobileAPI/api/Voter/initializeZip')
+      .query({zipCode: zip})
+      .query({houseNum: house})
+      .query({birthDate: dob})
       .end(function(err, res){
         if (err || !res.ok) {
           reject(err);
+        } else if (res.body.length !== 1) {
+          reject(res.body);
         } else {
-          if (res.body.columns && res.body.rows && res.body.rows.length == 1) {
-            let result = mapResults(res.body.columns, res.body.rows);
-            resolve(result);
-          } else if (res.body.rows && res.body.rows.length > 1) {
-            reject('Too many results');
-          } else reject(res.body);
+          resolve(res.body[0]);
         }
       });
     });
     return p;
   },
-  place: function(pollid, apikey){
-    apikey = apikey || this.props.fusionkey;
+  place: function(pollid){
     var p = new Promise(function(resolve, reject){
       // poll address from pollname ID
       var mapResults = pollingPlaceRequests.mapResults;
-      
+
       request
-      .get('https://www.googleapis.com/fusiontables/v1/query')
-      .query({sql: `SELECT  'Polling place', Address, City, Zip, Lat, Long FROM 1Sr6r-0V5njdzHp9cGNbqS5qljj9qJH7mn__HsHbL WHERE ID='${pollid}'`})
-      .query({key: apikey})
+      .get('https://voterreg.saccounty.net/VREMobileAPI/api/Voter/getpollplace')
+      .query({lPollPlaceHndl: pollid})
       .end(function(err, res){
         if (err || !res.ok) {
           reject(err);
+        } else if (res.body.length !== 1) {
+          reject(res.body);
         } else {
-          if (res.body.columns && res.body.rows && res.body.rows.length == 1) {
-            resolve(mapResults(res.body.columns, res.body.rows));
-          } else if (res.body.rows && res.body.rows.length > 1) {
-            reject('Too many polling places were found with id: ' + pollid);
-          } else reject(res.body);
+          res.body[0]['Polling place'] = res.body[0].Polling_Place;
+          resolve(res.body[0]);
         }
       });
     });
