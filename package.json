@@ -4,22 +4,14 @@
   "description": "Application to improve availability of information about polling place features that affect accessibility for voters.",
   "scripts": {
     "clean": "rimraf dist",
-    "copy": "cp -r public/* dist && cp index.html dist",
+    "copy": "cp -r public/* dist",
     "prebuild": "npm run clean",
-    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
-    "build:sass": "gulp sass",
-    "build:bower": "cp bower.json dist && cd dist && bower install",
-    "build:old": "npm run build:webpack && npm run build:sass && npm run build:bower",
     "postbuild": "npm run copy",
-    "start:bower": "bower install",
-    "start:gulp": "gulp sass",
-    "start:old": "npm run start:bower && npm run start:gulp && node devServer.js",
-    "watch": "gulp",
     "test": "tape -r babel-register tests/**/*.js",
     "lint": "eslint src",
     "start": "webpack-dev-server --port 3000",
     "build": "webpack",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "repository": {
     "type": "git",
