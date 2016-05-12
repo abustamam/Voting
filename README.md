@@ -25,14 +25,17 @@ Clone the repo:
 Install dependencies:
 `npm install`
 
-~~Build the CSS files:~~ 
-~~`npm run build`~~
-
 Run the server:
-`npm run start`
+`npm start`
 
 Open up in your web browser:
 `localhost:3000`
+
+To build:
+`npm run build`
+
+To deploy (if you have permission)
+`npm run deploy`
 
 Please read [the project wiki](https://github.com/abustamam/polling-place-accessibility/wiki), your questions may be answered there.
 
