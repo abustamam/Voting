@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge')
 const NpmInstallPlugin = require('npm-install-webpack-plugin')
+const DotenvPlugin = require('webpack-dotenv-plugin')
 
 const TARGET = process.env.npm_lifecyle_event
 const PATHS = {
@@ -62,6 +63,7 @@ if (TARGET === 'start' || !TARGET) {
       port: process.env.PORT
     },
     plugins: [
+      new DotenvPlugin({ sample: './.env.example' }),
       new webpack.HotModuleReplacementPlugin()
     ],
   })
@@ -70,6 +72,7 @@ if (TARGET === 'start' || !TARGET) {
 if(TARGET === 'build') {
   module.exports = merge(common, {
     plugins: [
+      new DotenvPlugin({ sample: './.env.example' }),
       new webpack.optimize.OccurenceOrderPlugin(),
       new webpack.DefinePlugin({
         'process.env': {
