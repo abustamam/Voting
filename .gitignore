@@ -9,3 +9,4 @@ css/*
 src/data/*
 .idea
 .publish
+.env

@@ -7,6 +7,8 @@ import AccessibilityStory from './AccessibilityStory'
 import Resources from './Resources'
 import About from './About'
 import classnames from 'classnames'
+import ga from 'react-ga'
+ga.initialize(process.env.GOOGLE_ANALYTICS)
 require('./../lib/tota11y.min.js')
 
 const sacImage = require('./../assets/images/sacCapitol.jpg')
@@ -18,7 +20,9 @@ export default class App extends Component {
 			currentTab: 'find your polling place'
 		}
 	}
-
+	componentDidMount() {
+		ga.pageview(window.location.pathname)
+	}
 	render() {
 
 		const tabs = ['find your polling place', 'map',  'resources', 'about']

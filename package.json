@@ -59,12 +59,14 @@
     "image-webpack-loader": "^1.6.3",
     "node-sass": "^3.4.2",
     "npm-install-webpack-plugin": "^3.1.1",
+    "react-ga": "^1.4.1",
     "react-hot-loader": "^3.0.0-alpha.8",
     "rimraf": "^2.4.3",
     "tape": "^4.5.1",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-dev-server": "^1.14.1",
+    "webpack-dotenv-plugin": "^1.0.0",
     "webpack-hot-middleware": "^2.6.0"
   },
   "dependencies": {
